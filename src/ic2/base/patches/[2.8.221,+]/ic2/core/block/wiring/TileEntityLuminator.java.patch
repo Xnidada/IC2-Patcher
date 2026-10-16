@@ -1,0 +1,11 @@
+--- a/ic2/core/block/wiring/TileEntityLuminator.java
++++ b/ic2/core/block/wiring/TileEntityLuminator.java
+@@ -94,7 +94,7 @@
+    protected boolean onActivated(EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+       if (!this.getWorld().isRemote) {
+          ItemStack stack = StackUtil.get(player, hand);
+-         double amount = 10000.0 - this.energy.getEnergy();
++         double amount = manualChargeCapacity - this.energy.getEnergy();
+          if (stack != null && amount > 0.0 && (amount = ElectricItem.manager.discharge(stack, amount, this.energy.getSinkTier(), true, true, false)) > 0.0) {
+             this.energy.forceAddEnergy(amount);
+          } else {
