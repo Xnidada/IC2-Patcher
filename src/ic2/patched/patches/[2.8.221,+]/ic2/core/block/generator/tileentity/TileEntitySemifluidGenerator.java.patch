@@ -1,0 +1,70 @@
+--- a/ic2/core/block/generator/tileentity/TileEntitySemifluidGenerator.java
++++ b/ic2/core/block/generator/tileentity/TileEntitySemifluidGenerator.java
+@@ -10,6 +10,7 @@
+ import ic2.core.init.MainConfig;
+ import ic2.core.network.GuiSynced;
+ import ic2.core.profile.NotClassic;
++import ic2.core.util.Config;
+ import ic2.core.util.ConfigUtil;
+ import net.minecraftforge.fluids.FluidStack;
+ import net.minecraftforge.fluids.FluidTank;
+@@ -31,27 +32,38 @@
+ 
+    public static void init() {
+       Recipes.semiFluidGenerator = new SemiFluidFuelManager();
+-      if (ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidOil") > 0.0F) {
+-         addFuel("oil", 16L, 8L);
+-      }
+-
+-      if (ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidFuel") > 0.0F) {
+-         addFuel("fuel", 128L, 32L);
+-      }
+-
+-      if (ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidBiomass") > 0.0F) {
+-         addFuel("biomass", 8L, 8L);
+-      }
+-
+-      if (ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidBioethanol") > 0.0F) {
+-         addFuel("bio.ethanol", 128L, 32L);
+-      }
+-
+-      if (ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidBiogas") > 0.0F) {
+-         addFuel("ic2biogas", 32L, 16L);
+-      }
+-
+-      addFuel("ic2creosote", 3L, 8L);
++      // Patch: Make energy yield get affected by the configuration values.
++      float modifier = ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidOil");
++      if (modifier > 0.0F) {
++         addFuel("oil", Math.round(16L * modifier), Math.round(8L * modifier));
++      }
++
++      modifier = ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidFuel");
++      if (modifier > 0.0F) {
++         addFuel("fuel", Math.round(128L * modifier), Math.round(32L * modifier));
++      }
++
++      modifier = ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidBiomass");
++      if (modifier > 0.0F) {
++         addFuel("biomass", Math.round(8L * modifier), Math.round(8L * modifier));
++      }
++
++      modifier = ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidBioethanol");
++      if (modifier > 0.0F) {
++         addFuel("bio.ethanol", Math.round(128L * modifier), Math.round(32L * modifier));
++      }
++
++      modifier = ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidBiogas");
++      if (modifier > 0.0F) {
++         addFuel("ic2biogas", Math.round(32L * modifier), Math.round(16L * modifier));
++      }
++
++      // Patch: Add config option for creosote generation values. Add "creosote" as supported fluid for cross-mod compat.
++      modifier = ConfigUtil.getFloat(MainConfig.get(), "balance/energy/generator/semiFluidCreosote");
++      if (modifier > 0.0f) {
++         addFuel("ic2creosote", Math.round(3L * modifier), Math.round(8L * modifier));
++         addFuel("creosote", Math.round(3L * modifier), Math.round(8L * modifier));
++      }
+    }
+ 
+    public static void addFuel(String fluidName, long energyPerMb, long energyPerTick) {

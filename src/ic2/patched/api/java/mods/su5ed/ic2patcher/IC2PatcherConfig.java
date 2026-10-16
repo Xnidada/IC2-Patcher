@@ -2,7 +2,7 @@ package mods.su5ed.ic2patcher;
 
 import java.io.File;
 import java.util.Objects;
-
+import ic2.core.util.Config;
 
 public class IC2PatcherConfig extends net.minecraftforge.common.config.Configuration {
 
@@ -103,6 +103,20 @@ public class IC2PatcherConfig extends net.minecraftforge.common.config.Configura
             config.load();
         }
         return config;
+    }
+
+    /**
+     * Adds default values for keys added to the original IC2 Config.
+     * @param config Configuration to modify.
+     * @implSpec Most configuration options should be specified in the IC2-Patcher configuration directly.
+     * This extension is for configuration options that extend/fix IC2 config issues
+     * (like lack of balance config for Creosote oil)
+     */
+    public static void patchIC2Config(Config config) {
+        config.set("balance/energy/generator/semiFluidCreosote", 1.0f);
+        config.set("balance/energy/heatgenerator/semiFluidCreosote", 1.0f);
+        config.getSub("balance/energy/generator").sort();
+        config.getSub("balance/energy/heatgenerator").sort();
     }
 
     protected static void set(IC2PatcherConfig config) {
