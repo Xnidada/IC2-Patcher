@@ -8,51 +8,51 @@ public class IC2PatcherConfig extends net.minecraftforge.common.config.Configura
 
     private static IC2PatcherConfig config;
     /**
-     * Determines if new UU System should be used.
+     * 是否启用新的 UU 计算系统。
      */
     public final boolean newUUCalculator;
     /**
-     * Determines if the experimental World Reference patch should be used.
+     * 是否启用实验性的 World Reference 修复补丁。
      */
     public final boolean worldReferenceSwitch;
     /**
-     * Determines if the experimental Push/Pull tick logic should be used.
+     * 是否启用实验性的推送/拉取升级模块 tick 逻辑。
      */
     public final boolean enableUpgradeTickInterval;
     /**
-     * Determines if the Fluid Cell should act like a normal bucket would.
+     * 是否让流体单元具备普通水桶的行为。
      */
     public final boolean bucketCell;
     /**
-     * Determines if Night Vision in Quantum Suit should be buffed (Removed Blindness effect)
+     * 是否增强量子套装的夜视功能（移除失明效果）。
      */
     public final boolean qsNVBuff;
     /**
-     * Determines if Fall Damage Reduction in NanoSuit should be absorption instead.
+     * 是否将纳米套装的摔落伤害减免改为吸收伤害。
      */
     public final boolean nsFDBuff;
     /**
-     * Determines if the Generators should be more fuel efficient (Limit Burn-Rate when Energy Buffer is full).
+     * 是否让发电机更加节省燃料（能量缓存充满时限制燃料消耗速率）。
      */
     public final boolean genEffBuff;
     /**
-     * Determines the maximum experience stored by Electric Furnaces.
+     * 电炉最多存储的经验值。
      */
     public final float electricFurnaceMaxExperience;
     /**
-     * Determines the tick interval of Push/Pull upgrades.
+     * 推送/拉取升级模块的 tick 间隔。
      */
     public final int upgradeTickInterval;
     /**
-     * Determines the cooldown after failed push.
+     * 推送失败后的冷却时间。
      */
     public final int pushCooldown;
     /**
-     * Determines the HU per Coil in the Electric Heater.
+     * 电加热器每个线圈提供的 HU。
      */
     public final int huPerCoil;
     /**
-     * Determines the HU per Heat Exchanger in the Liquid Heat Exchanger.
+     * 液体热交换器每个热交换器提供的 HU。
      */
     public final int huPerExc;
 
@@ -60,46 +60,45 @@ public class IC2PatcherConfig extends net.minecraftforge.common.config.Configura
         super(new File("config/" + file + ".cfg"));
 
         bucketCell = this.getBoolean("bucketFluidCell", "patches", true,
-            "Adds bucket-like behaviour to the FluidCell, allowing to pickup fluids that aren't adjacent to a block.");
+            "为流体单元添加类似水桶的行为，使其可以拾取不与方块相邻的流体。");
 
         enableUpgradeTickInterval = this.getBoolean("enableUpgradeTickInterval", "patches", false,
-            "[Experimental] Forces the Push/Pull upgrades to tick only once every x ticks with few exceptions. If false, uses default IC2 behaviour.");
+            "[实验性] 强制推送/拉取升级模块每 x 个 tick 执行一次，少数情况除外。关闭时使用 IC2 默认行为。");
 
         upgradeTickInterval = this.getInt("upgradeSlotTickInterval", "patches", 5, 1, 100,
-            "[Experimental] Forces the Push/Pull upgrades to tick only once every x ticks with few exceptions.\n" +
-                "- For Push: Ticked if output is full, if transfer failed, triggers a cooldown.\n" +
-                "- For Pull: Tick is skipped if output/input is full.\n ");
+            "[实验性] 强制推送/拉取升级模块每 x 个 tick 执行一次，少数情况除外。\n" +
+                "- 推送：输出槽已满或传输失败时执行 tick；传输失败会触发冷却。\n" +
+                "- 拉取：输出槽或输入槽已满时跳过 tick。\n ");
 
         pushCooldown = this.getInt("pushUpgradeCooldown", "patches", 20, 1, 1200,
-            "[Experimental] Determines cooldown (in ticks) of push upgrades, after failed item transfer.");
+            "[实验性] 确定推送升级模块在物品传输失败后的冷却时间（tick）。");
 
         worldReferenceSwitch = this.getBoolean("worldReferenceSwitch", "patches", false,
-            "[Experimental] Changes the way EnergyNet handles and stores World Reference, to possibly fix randomly disconnecting wires.\n" +
-                "Enabling this switches out the previous patch for this new solution. Please report any issues related to EnergyNet if you have this patch enabled.\n" +
-                "Creating a backup of the world before turning this patch on is recommended.");
+            "[实验性] 更改 EnergyNet 处理和存储世界引用的方式，可能修复电线随机断开的问题。\n" +
+                "启用后将替换原有补丁中的实现。如果启用该补丁后 EnergyNet 出现问题，请反馈。\n" +
+                "建议在启用前备份世界。");
 
         newUUCalculator = this.getBoolean("newUUMatterCalculator", "patches", false,
-            "[Experimental] Replaces the original UU-Matter calculator with a completely custom solution.\n" +
-                "This will affect UU-Values being calculated, to be possibly more \"fair\" than the defaults," +
-                " and should resolve compatibility issues with mods that cause crashes of original solution.");
+            "[实验性] 使用完全自定义的方案替换原有 UU 物质计算器。\n" +
+                "这会影响 UU 值的计算，使其可能比默认值更加合理，并可能解决其他模组导致原方案崩溃的兼容性问题。");
 
         qsNVBuff = this.getBoolean("buffedQuantumSuitNV", "balance", true,
-            "Makes QuantumSuit Night Vision fully automatic, removing the blindness effect if the surrounds are too bright, only removing the Night Vision effect in that situation.");
+            "使量子套装的夜视功能完全自动化：环境过亮时移除失明效果，并在这种情况下仅移除夜视效果。");
 
         nsFDBuff = this.getBoolean("buffedNanoSuitFallDamageReduction", "balance", true,
-            "Makes NanoSuit absorb up to 10 fall damage, instead of applying the full fall damage if it's higher than 10.");
+            "使纳米套装吸收最多 10 点摔落伤害，而不是在摔落伤害超过 10 点时承受全部伤害。");
 
         genEffBuff = this.getBoolean("efficientGenerators", "balance", true,
-            "Changes the behaviour of the generators to limit the burn-rate if the energy buffer is full, making them more fuel efficient.");
+            "改变发电机行为：能量缓存充满时限制燃料消耗速率，使其更加节省燃料。");
 
         electricFurnaceMaxExperience = this.getFloat("electricFurnaceMaxExperience", "balance", 100.0F, 0.0F, Float.MAX_VALUE,
-            "Determines the maximum experience stored by Electric Furnaces.");
+            "电炉最多存储的经验值。");
 
         huPerCoil = this.getInt("huPerCoil", "balance", 10,
-            0, 1000, "Determines the efficiency of Coils in the Electric Heater [HU produced per Coil].");
+            0, 1000, "确定电加热器每个线圈的效率 [每个线圈产生的 HU]。");
 
         huPerExc = this.getInt("huPerExchanger", "balance", 10, 1, 1000,
-            "Determines the efficiency of Heat Exchangers in the Liquid Heat Exchanger [HU transferred per Exchanger].");
+            "确定液体热交换器每个热交换器的效率 [每个热交换器传输的 HU]。");
 
         if (this.hasChanged()) this.save();
     }
