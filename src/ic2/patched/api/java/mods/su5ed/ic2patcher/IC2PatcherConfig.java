@@ -36,6 +36,10 @@ public class IC2PatcherConfig extends net.minecraftforge.common.config.Configura
      */
     public final boolean genEffBuff;
     /**
+     * Determines the maximum experience stored by Electric Furnaces.
+     */
+    public final float electricFurnaceMaxExperience;
+    /**
      * Determines the tick interval of Push/Pull upgrades.
      */
     public final int upgradeTickInterval;
@@ -87,6 +91,9 @@ public class IC2PatcherConfig extends net.minecraftforge.common.config.Configura
 
         genEffBuff = this.getBoolean("efficientGenerators", "balance", true,
             "Changes the behaviour of the generators to limit the burn-rate if the energy buffer is full, making them more fuel efficient.");
+
+        electricFurnaceMaxExperience = this.getFloat("electricFurnaceMaxExperience", "balance", 100.0F, 0.0F, Float.MAX_VALUE,
+            "Determines the maximum experience stored by Electric Furnaces.");
 
         huPerCoil = this.getInt("huPerCoil", "balance", 10,
             0, 1000, "Determines the efficiency of Coils in the Electric Heater [HU produced per Coil].");

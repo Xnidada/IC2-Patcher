@@ -1,0 +1,17 @@
+--- a/ic2/core/block/machine/tileentity/TileEntityElectricFurnace.java
++++ b/ic2/core/block/machine/tileentity/TileEntityElectricFurnace.java
+@@ -15,2 +15,3 @@
+ import java.util.Set;
++import mods.su5ed.ic2patcher.IC2PatcherConfig;
+ import net.minecraft.entity.player.EntityPlayer;
+@@ -31,3 +32,3 @@
+       super.readFromNBT(nbt);
+-      this.xp = nbt.getDouble("xp");
++      this.xp = Math.min(nbt.getDouble("xp"), IC2PatcherConfig.get().electricFurnaceMaxExperience);
+    }
+@@ -65,3 +66,4 @@
+       super.operateOnce(result, processResult);
+-      this.xp += (double)result.getRecipe().getMetaData().getFloat("experience");
++      this.xp = Math.min(this.xp + (double)result.getRecipe().getMetaData().getFloat("experience"),
++         IC2PatcherConfig.get().electricFurnaceMaxExperience);
+    }
