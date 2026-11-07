@@ -1,0 +1,4 @@
+interface:
+  display_name: "IC2 Patcher 构建"
+  short_description: "编译 IC2-Patcher 并生成发布 JAR 文件"
+  default_prompt: "按项目流程编译 IC2-Patcher 发布 JAR"
