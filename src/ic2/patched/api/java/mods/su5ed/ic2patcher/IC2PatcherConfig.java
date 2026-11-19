@@ -40,6 +40,10 @@ public class IC2PatcherConfig extends net.minecraftforge.common.config.Configura
      */
     public final float electricFurnaceMaxExperience;
     /**
+     * 电炉烧制矿物词典 ingot 产物时产生的经验值。
+     */
+    public final float electricFurnaceDustExperience;
+    /**
      * 推送/拉取升级模块的 tick 间隔。
      */
     public final int upgradeTickInterval;
@@ -93,6 +97,9 @@ public class IC2PatcherConfig extends net.minecraftforge.common.config.Configura
 
         electricFurnaceMaxExperience = this.getFloat("electricFurnaceMaxExperience", "balance", 100.0F, 0.0F, Float.MAX_VALUE,
             "电炉最多存储的经验值。");
+
+        electricFurnaceDustExperience = this.getFloat("electricFurnaceDustExperience", "balance", 0.01F, 0.0F, Float.MAX_VALUE,
+            "电炉烧制矿物词典 ingot 产物时产生的经验值。");
 
         huPerCoil = this.getInt("huPerCoil", "balance", 10,
             0, 1000, "确定电加热器每个线圈的效率 [每个线圈产生的 HU]。");

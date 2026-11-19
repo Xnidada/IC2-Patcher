@@ -1,17 +1,27 @@
 --- a/ic2/core/block/machine/tileentity/TileEntityElectricFurnace.java
 +++ b/ic2/core/block/machine/tileentity/TileEntityElectricFurnace.java
-@@ -13,2 +13,3 @@
+@@ -13,2 +13,4 @@
  import java.util.Set;
 +import mods.su5ed.ic2patcher.IC2PatcherConfig;
  import net.minecraft.entity.player.EntityPlayer;
-@@ -30,3 +31,3 @@
++import net.minecraftforge.oredict.OreDictionary;
+@@ -30,2 +32,2 @@
        super.readFromNBT(nbt);
 -      this.xp = nbt.getDouble("xp");
 +      this.xp = Math.min(nbt.getDouble("xp"), IC2PatcherConfig.get().electricFurnaceMaxExperience);
-    }
-@@ -66,3 +67,4 @@
+@@ -66,3 +68,14 @@
        super.operateOnce(result, processResult);
 -      this.xp = this.xp + result.getRecipe().getMetaData().getFloat("experience");
-+      this.xp = Math.min(this.xp + result.getRecipe().getMetaData().getFloat("experience"),
++      double experience = result.getRecipe().getMetaData().getFloat("experience");
++      ItemStack output = result.getRecipe().getOutput();
++      if (output != null && !output.isEmpty()) {
++         for (int oreId : OreDictionary.getOreIDs(output)) {
++            if (OreDictionary.getOreName(oreId).startsWith("ingot")) {
++               experience = IC2PatcherConfig.get().electricFurnaceDustExperience;
++               break;
++            }
++         }
++      }
++      this.xp = Math.min(this.xp + experience,
 +         IC2PatcherConfig.get().electricFurnaceMaxExperience);
     }

@@ -33,7 +33,7 @@ val baseArchiveName: String by project
 val baseProjectName: String by project
 val modPackage: String by project;
 
-version = getGitVersion()
+version = findProperty("versionOverride")?.toString() ?: getGitVersion()
 setProperty("archivesBaseName", baseArchiveName)
 evaluationDependsOnChildren()
 
